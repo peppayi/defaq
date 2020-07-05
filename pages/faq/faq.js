@@ -5,7 +5,7 @@ var faqs = require("../../configs/faq.js")
 var touching = false;
 var touchX, touchY;
 
-var TOUCH_THRESHOLD_X = 50;
+const TOUCH_THRESHOLD_X = 50;
 
 Page({
 
@@ -14,8 +14,8 @@ Page({
    */
   data: {
     subjects: [],
-    previous: [],
-    next: [],
+    previousSubjects: [],
+    nextSubjects: [],
     current: {
       subject: null,
       index: -1
@@ -124,27 +124,33 @@ Page({
 
   selectNextSubject: function() {
     var subjects = this.data.subjects;
-    var previous = this.data.previous;
-    var next = this.data.next;
+    var previousSubjects = this.data.previousSubjects;
+    var nextSubjects = this.data.nextSubjects;
     var current = this.data.current.subject;
     var index = this.data.current.index;
 
-    if (current != null && previous[previous.length-1] !== current) {
-      previous.push(current);
-      index = -1;
-    }
-
-    if (next.length > 0) {
-      current = next.shift();
+    var next = null;
+    if (nextSubjects.length > 0) {
+      next = nextSubjects.shift();
     }
     else if (subjects.length > 0) {
-      current = subjects.shift();
+      next = subjects.shift();
+    }
+
+    if (current == null) {
+      current = next;
+      index = -1;
+    }
+    else if (current != null && next != null) {
+      previousSubjects.push(current);
+      current = next;
+      index = -1;
     }
 
     this.setData({
       subjects, 
-      previous, 
-      next, 
+      previousSubjects, 
+      nextSubjects, 
       current: {
         subject: current, 
         index
@@ -154,24 +160,26 @@ Page({
 
   selectPreviousSubject: function() {
     var subjects = this.data.subjects;
-    var previous = this.data.previous;
-    var next = this.data.next;
+    var previousSubjects = this.data.previousSubjects;
+    var nextSubjects = this.data.nextSubjects;
     var current = this.data.current.subject;
     var index = this.data.current.index;
 
-    if (current != null && previous.length > 0) {
-      next.unshift(current);
-      index = -1;
+    var previous = null;
+    if (previousSubjects.length > 0) {
+      previous = previousSubjects.pop();
     }
 
-    if (previous.length > 0) {
-      current = previous.pop();
+    if (current != null && previous != null) {
+      nextSubjects.unshift(current);
+      current = previous;
+      index = -1;
     }
 
     this.setData({
       subjects, 
-      previous, 
-      next, 
+      previousSubjects, 
+      nextSubjects, 
       current: {
         subject: current, 
         index
