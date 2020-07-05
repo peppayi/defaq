@@ -1,0 +1,17 @@
+/* pages/faq/faq.wxss */
+
+page {
+  height: 100%;
+}
+
+.faq-container {
+  background-color: rgb(197, 188, 188);
+}
+
+.faq-subject {
+  font-size: xx-large;
+}
+
+.faq-q-container {
+  background-color: rgba(212, 127, 30, 0.856);
+}

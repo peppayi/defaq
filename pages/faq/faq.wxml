@@ -1,0 +1,16 @@
+<!--pages/faq/faq.wxml-->
+
+<view class="container faq-container" 
+  bindtap="onNextFAQ"
+  bindtouchstart="onTouchStart"
+  bindtouchmove="onTouchMove"
+  bindtouchend="onTouchEnd"
+>
+  <view class="faq-subject">{{current.subject.name}}</view>
+
+  <view class="faq-q-container">
+    <view wx:if="{{current.index >= 0}}" class="faq-q">
+      Q: {{current.subject.faqs[current.index]}}
+    </view>
+  </view>
+</view>
